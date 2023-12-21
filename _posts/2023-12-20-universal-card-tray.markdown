@@ -54,6 +54,6 @@ Sometimes FreeCAD fails to recompute the model if `CardWidth` and `CardHeight` v
 
 [![Compute Fail](/assets/img/uni-tray-project/compute-fail.png)](/assets/img/uni-tray-project/compute-fail.png)
 
-FreeCAD will fail to compute the model if Radius or Fillet values are 0mm. If you want to remove the Inner and outer fillets, set their values to a small number (e.g. 0.0001mm)
+FreeCAD will fail to compute the model if Radius or Fillet values are 0mm. If you want to remove the Radius or fillet, set their values to a small number (e.g. 0.0001mm)
 
 
