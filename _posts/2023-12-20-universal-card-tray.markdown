@@ -6,7 +6,7 @@ category: Projects
 tags: FreeCAD 3d-printng things-to-make
 --- 
 
-Tutorial for Universal card tray project that you can find on my [thingiverse page](https://www.thingiverse.com/)
+Tutorial for Universal card tray project that you can find on my [thingiverse page](https://www.thingiverse.com/thing:6390807)
 
 ### Prerequisites
 ---
