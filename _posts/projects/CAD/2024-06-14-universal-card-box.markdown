@@ -6,7 +6,7 @@ category: Projects
 tags: FreeCAD 3d-printng things-to-make
 --- 
 
-Tutorial for Universal card box project that you can find on my [thingiverse page](https://www.thingiverse.com/jack_davies/designs)
+Tutorial for Universal card box project that you can find on my [thingiverse page](https://www.thingiverse.com/thing:6669379)
 
 ### Prerequisites
 ---
