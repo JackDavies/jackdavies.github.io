@@ -52,7 +52,7 @@ I created a CNAME record (named **selfhost**) which points to the dynamic DNS re
 
 [![Adding custom subdomain to 123-reg](/assets/img/selfhost-subdomains/123-dns.png)](/assets/img/selfhost-subdomains/123-dns.png)
 
-CNAME records act like an alias to another DNS record, so in my example **selfhost.mydomain.com** resolves as **mysub.twilightparadox.com** which resolves as my networks public IP address. Which esentially means my subdomain **selfhost.mydomain.com** resolves as my public IP
+CNAME records act like an alias to another DNS record, so in my example **selfhost.example.com** resolves as **mysub.twilightparadox.com** which resolves as my networks public IP address. Which esentially means my subdomain **selfhost.example.com** resolves as my public IP
 
 ## 3. Setting up Nginx
 
@@ -63,7 +63,7 @@ After installing nginx we need to create a configuration file for our service:
 ```
 server{
 	listen 80;
-	server_name selfhost.mydomain.com;
+	server_name selfhost.example.com;
 	resolver 192.168.0.1;
 	location / {
 		proxy_pass http://192.168.0.10:8080;
@@ -71,9 +71,9 @@ server{
 }
 ```
 
-This config uses **proxy_pass**, when nginx receives a request for **selfhost.mydomain.com** it will pass the request to the ip/port in the **location** section. This IP can be on the same computer that is running nginx or a separate computer running on the local network.
+This config uses **proxy_pass**, when nginx receives a request for **selfhost.example.com** it will pass the request to the ip/port in the **location** section. This IP can be on the same computer that is running nginx or a separate computer running on the local network.
 
-Save the config to **/etc/nginx/sites-available/selfhost.mydomain.com**
+Save the config to **/etc/nginx/sites-available/selfhost.example.com**
 
 After saving the config file we need to enable the site, to do this we need to create a symbolic link of the configuration file in **/etc/nginx/sites-enabled**
 
@@ -95,7 +95,7 @@ Make sure you have ```include /etc/nginx/sites-enabled/*;``` in **/etc/nginx/ngi
 After restarting nginx you should be able to access the service proxy_pass is pointing to from the custom subdomain setup in section 2
 
 
-[![Nextcloud accessible from selfhost.mydomain.com](/assets/img/selfhost-subdomains/nextcloud.png)](/assets/img/selfhost-subdomains/nextcloud.png)
+[![Nextcloud accessible from selfhost.example.com](/assets/img/selfhost-subdomains/nextcloud.png)](/assets/img/selfhost-subdomains/nextcloud.png)
 
 You might find it doesn't work immediately due DNS propagation delays, it can take time for changes to the DNS records to be updated across all DNS servers worldwide
 
@@ -106,7 +106,7 @@ For example say I have **home-assistant** running on a Pi with the local address
 ```
 server{
 	listen 80;
-	server_name ha.mydomain.com;
+	server_name ha.example.com;
 	resolver 192.168.0.1;
 	location / {
 		proxy_pass http://192.168.0.11:80;
@@ -114,7 +114,7 @@ server{
 }
 ```
 
-When nginx sees a request for **ha.mydomain.com** it passes it to the address 192.168.0.11 port 80.
+When nginx sees a request for **ha.example.com** it passes it to the address 192.168.0.11 port 80.
 
 
 ## 4. Setting up SSL/TLS
@@ -132,35 +132,35 @@ sudo apt-get install certbot python3-certbot-nginx
 After installing certbot, we can run the following command to get a certificate for our selected subdomain and have certbot update the nginx configuration 
 
 ```
-sudo certbot --nginx -d selfhost.mydomain.com
+sudo certbot --nginx -d selfhost.example.com
 ```
 
-After running certbot **/etc/nginx/sites-available/selfhost.mydomain.com** should have been updated:
+After running certbot **/etc/nginx/sites-available/selfhost.example.com** should have been updated:
 
 ```
 server{
-	server_name selfhost.mydomain.com;
+	server_name selfhost.example.com;
 	location / {
 		proxy_pass http://192.168.0.10:8080;
 	}
 
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/selfhost.mydomain.com/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/selfhost.mydomain.com/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/selfhost.example.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/selfhost.example.com/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
 }
 
 server{
-    if ($host = selfhost.mydomain.com) {
+    if ($host = selfhost.example.com) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
 	listen 80;
-	server_name selfhost.mydomain.com;
+	server_name selfhost.example.com;
     return 404; # managed by Certbot
 }
 ```
