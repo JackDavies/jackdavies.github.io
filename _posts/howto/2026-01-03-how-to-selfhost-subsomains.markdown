@@ -6,8 +6,9 @@ category: HowTo
 tags: selfhost nginx howto
 ---
 
-If you are like me and have several self hosted services, one challenge you may face is having a easy way to access them, this can be extra challenging if you have a single non fixed IP address. \
-One solution is to use [nginx](https://nginx.org) as a gateway to the services you are hosting with custom subdomains to manage access to them.
+If like me you have several self hosted services, one challenge you may face is having a easy way to access them, this can be extra challenging if you have a single non fixed IP address.
+
+One solution is to use [nginx](https://nginx.org) as a gateway to the services you are hosting and custom subdomains to manage access to them.
 
 ## 0. My setup
 I have a raspberry pi (the "gateway") running nginx, ports 80 and 443 are forwarded to my home internet router allowing me HTTPS access to the pi outside of the LAN network. 
@@ -20,7 +21,7 @@ I have several Pi's/PCs running various services (nextcloud, motion camera, home
 
 My ISP does not provide fixed IP addresses to residential customers, so in order to keep track of my networks IP address I am using [freedns.afraid.org](https://freedns.afraid.org/) as a Dynamic DNS provider.
 
-The first step is to create a [subdomain](https://freedns.afraid.org/subdomain/) with one of their domain providers, setting the destination as my public IP address.
+The first step is to create a [subdomain](https://freedns.afraid.org/subdomain/) with one of their domains, setting the destination as my public IP address.
 
 [![Creating subdomain in freedns](/assets/img/selfhost-subdomains/freedns-add-subdomain.png)](/assets/img/selfhost-subdomains/freedns-add-subdomain.png)
 
@@ -42,7 +43,6 @@ If my IP address changes, then the cron job will update the DNS record with the 
 ```
 curl https://freedns.afraid.org/dynamic/update.php?TOKEN > /home/jack/cron/log/ip-update/$(date '+%Y-%m-%d_%H-%M-%S')
 ```
-
 
 ## 2. Setting up custom subdomains
 
